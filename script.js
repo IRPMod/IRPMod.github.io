@@ -656,12 +656,16 @@ async function loadAllPlayers() {
 
   // 1. Queue up all the requests at once
   for (const squad of manifest.squads) {
+    // Look up the clean name using the squad ID, falling back to label if missing
+    const squadName = SQUAD_NAME_MAP[squad.id] || squad.label;
+
     for (const file of squad.files) {
       const path = `players/${squad.folder}/${file}`;
       
       const request = fetchPlayerFile(path)
         .then(row => {
-          if (row) return buildPlayer(row, file, squad.label);
+          // Pass 'squadName' instead of 'squad.label' into buildPlayer
+          if (row) return buildPlayer(row, file, squadName);
           return null;
         })
         .catch(err => {
