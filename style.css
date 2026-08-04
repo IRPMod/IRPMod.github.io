@@ -412,6 +412,54 @@ main {
 .attr-row .attr-bar span { display: block; height: 100%; background: var(--gold); }
 .attr-row .attr-num { width: 20px; text-align: right; font-family: 'Space Mono', monospace; font-weight: 700; color: var(--paper); }
 
+/* ---------- loading screen ---------- */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-image: url('assets/hero.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-color: var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loading-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85); /* Darkens the background image */
+  z-index: -1;
+}
+
+.loading-content {
+  text-align: center;
+  color: var(--gold-bright);
+}
+
+.loading-content h2 {
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 0.05em;
+  margin-top: 15px;
+}
+
+.loading-spinner {
+  width: 70px;
+  height: auto;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 720px) {
   .masthead-inner { grid-template-columns: auto 1fr; }
