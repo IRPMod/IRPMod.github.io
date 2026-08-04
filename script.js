@@ -508,7 +508,7 @@ function renderCard(player) {
   sub.className = "sticker-sub";
   // Look up the flag, fallback to the text name if no flag is found
   const flagLogo = COUNTRY_FLAGS[player.nation] || player.nation; 
-  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span>${flagLogo}</span>`;
+  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span class="sticker-flag">${flagLogo}</span>`;
 
   const idLine = document.createElement("p");
   idLine.className = "sticker-id";
