@@ -28,7 +28,7 @@ const NATIONS = {
   15: "Montenegro",
   16: "Faroe Islands",
   17: "Finland",
-  18: "France",
+  18: "🇫🇷",
   19: "North Macedonia",
   20: "Georgia",
   21: "Germany",
