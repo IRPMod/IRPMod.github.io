@@ -620,19 +620,32 @@ async function loadAllPlayers() {
   const manifestRes = await fetch("players/manifest.json");
   const manifest = await manifestRes.json();
 
-  const players = [];
+  const fetchPromises = [];
+
+  // 1. Queue up all the requests at once
   for (const squad of manifest.squads) {
     for (const file of squad.files) {
       const path = `players/${squad.folder}/${file}`;
-      try {
-        const row = await fetchPlayerFile(path);
-        if (row) players.push(buildPlayer(row, file, squad.label));
-      } catch (err) {
-        console.error("Failed to load", path, err);
-      }
+      
+      const request = fetchPlayerFile(path)
+        .then(row => {
+          if (row) return buildPlayer(row, file, squad.label);
+          return null;
+        })
+        .catch(err => {
+          console.error("Failed to load", path, err);
+          return null; // Keep going even if one file fails
+        });
+        
+      fetchPromises.push(request);
     }
   }
-  return players;
+
+  // 2. Execute them all concurrently
+  const results = await Promise.all(fetchPromises);
+  
+  // 3. Filter out any failed/null requests and return the final array
+  return results.filter(player => player !== null);
 }
 
 async function init() {
