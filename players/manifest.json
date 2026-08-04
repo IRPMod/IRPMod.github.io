@@ -1,0 +1,43 @@
+{
+  "squads": [
+    {
+      "id": "150001",
+      "label": "Real Madrid — 2017/18",
+      "folder": "150001 - 2017-18 Real Madrid",
+      "files": [
+        "50397 - Keylor Navas.player",
+        "50398 - Kiko Casilla.player",
+        "50399 - Luca Zidane.player",
+        "50400 - Moha Ramos.player",
+        "50401 - Raphael Varane.player",
+        "50402 - Sergio Ramos.player",
+        "50403 - Nacho Fernandez.player",
+        "50404 - Jesus Vallejo.player",
+        "50405 - Manu Hernando.player",
+        "50406 - Marcelo.player",
+        "50407 - Theo Hernandez.player",
+        "50408 - Dani Carvajal.player",
+        "50409 - Lucas Vazquez.player",
+        "50410 - Achraf Hakimi.player",
+        "50411 - Alvaro Tejero.player",
+        "50412 - Casemiro.player",
+        "50413 - Toni Kroos.player",
+        "50414 - Mateo Kovacic.player",
+        "50415 - Luka Modric.player",
+        "50416 - Dani Ceballos.player",
+        "50417 - Jaime Seoane.player",
+        "50418 - Marcos Llorente.player",
+        "50419 - Luismi Quezada.player",
+        "50420 - Isco Isco.player",
+        "50421 - Oscar Rodriguez.player",
+        "50422 - Gareth Bale.player",
+        "50423 - Marco Asensio.player",
+        "50424 - Francisco Feuillassier.player",
+        "50425 - Cristo.player",
+        "50426 - Cristiano Ronaldo.player",
+        "50427 - Karim Benzema.player",
+        "50428 - Borja Mayoral.player"
+      ]
+    }
+  ]
+}
