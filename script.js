@@ -440,6 +440,7 @@ function makePortraitEl(player, size) {
   const wrap = document.createElement("div");
   wrap.className = size === "small" ? "sticker-portrait" : "sheet-portrait";
   const img = document.createElement("img");
+  img.loading = "lazy";
   img.src = portraitPath(player.id);
   img.alt = "";
   img.onerror = () => {
@@ -640,9 +641,23 @@ async function init() {
     squadCount.textContent = String(ALL_PLAYERS.length).padStart(3, "0");
     populatePositionFilter();
     applyFiltersAndRender();
+
+    // Fade out and remove the loader
+    const loader = document.getElementById("loading-screen");
+    if (loader) {
+      loader.style.opacity = "0";
+      loader.style.visibility = "hidden";
+      setTimeout(() => {
+        loader.remove();
+      }, 500);
+    }
   } catch (err) {
-    resultsLine.textContent = "Couldn't load the archive — check the console for details.";
+    resultsLine.textContent = "CRITICAL ERROR, PLEASE REFRESH.";
     console.error(err);
+    
+    // Remove loader even if there is an error so the user can see the error message
+    const loader = document.getElementById("loading-screen");
+    if (loader) loader.remove();
   }
 }
 
