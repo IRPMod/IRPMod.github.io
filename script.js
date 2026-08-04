@@ -691,14 +691,13 @@ async function init() {
     populatePositionFilter();
     applyFiltersAndRender();
 
-    // Fade out and remove the loader
+    // Slide the loader up and off-screen, then remove it
     const loader = document.getElementById("loading-screen");
     if (loader) {
-      loader.style.opacity = "0";
-      loader.style.visibility = "hidden";
+      loader.classList.add("slide-up");
       setTimeout(() => {
         loader.remove();
-      }, 500);
+      }, 700); // match the CSS transition duration below
     }
   } catch (err) {
     resultsLine.textContent = "CRITICAL ERROR, PLEASE REFRESH.";
