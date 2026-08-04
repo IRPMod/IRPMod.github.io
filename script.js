@@ -9,6 +9,38 @@
    have verified against real players in this squad are filled
    in — anything else renders as "Nation #id" / "POS #id" so nothing
    breaks. Extend these two objects as you confirm more codes. */
+const SQUAD_NAME_MAP = {
+  "150000": "Real Madrid (2011-12)",
+  "150001": "Real Madrid (2017-18)",
+  "150002": "Liverpool (2018-19)",
+  "150004": "Barcelona (2012-13)",
+  "150005": "Atletico Madrid (2018-19)",
+  "150006": "Manchester United (2012-13)",
+  "150007": "AC Milan (2006-07)",
+  "150008": "Liverpool (2008-09)",
+  "150009": "Manchester United (2007-08)",
+  "150010": "Arsenal (2003-04)",
+  "150011": "Chelsea (2018-19)",
+  "150012": "PSG (2014-15)",
+  "150013": "Marseille (2017-18)",
+  "150014": "Lyon (2019-20)",
+  "150015": "AS Monaco (2016-17)",
+  "150019": "PSG (2019-20)",
+  "150020": "Bayern Munich (2019-20)",
+  "150025": "Borussia Dortmund (2016-17)",
+  "150026": "Leicester City (2015-16)",
+  "150027": "Ajax (2018-19)",
+  "150028": "Barcelona (2015-16)",
+  "150031": "Manchester City (2018-19)",
+  "150032": "Juventus (2016-17)",
+  "150033": "Real Madrid (2004-05)",
+  "150034": "Benfica (2016-17)",
+  "150035": "Tottenham Hotspur (2018-19)",
+  "150036": "Lille (2020-21)",
+  "150038": "Inter Milan (2009-10)",
+  "150041": "Borussia Dortmund (2020-21)",
+  "150044": "Newcastle United (1995-96)"
+};
 
 const NATIONS = {
   1: "Albania",
