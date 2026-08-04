@@ -28,7 +28,7 @@ const NATIONS = {
   15: "Montenegro",
   16: "Faroe Islands",
   17: "Finland",
-  18: "🇫🇷",
+  18: "France",
   19: "North Macedonia",
   20: "Georgia",
   21: "Germany",
@@ -231,6 +231,62 @@ const NATIONS = {
   225: "CONMEBOL",
 };
 
+// 1. The Data: Mapping names directly to flags
+const COUNTRY_FLAGS = {
+  "Albania": "🇦🇱", "Andorra": "🇦🇩", "Armenia": "🇦🇲", "Austria": "🇦🇹", 
+  "Azerbaijan": "🇦🇿", "Belarus": "🇧🇾", "Belgium": "🇧🇪", "Bosnia and Herzegovina": "🇧🇦", 
+  "Bulgaria": "🇧🇬", "Croatia": "🇭🇷", "Cyprus": "🇨🇾", "Czech Republic": "🇨🇿", 
+  "Denmark": "🇩🇰", "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Montenegro": "🇲🇪", "Faroe Islands": "🇫🇴", 
+  "Finland": "🇫🇮", "France": "🇫🇷", "North Macedonia": "🇲🇰", "Georgia": "🇬🇪", 
+  "Germany": "🇩🇪", "Greece": "🇬🇷", "Hungary": "🇭🇺", "Iceland": "🇮🇸", 
+  "Republic of Ireland": "🇮🇪", "Israel": "🇮🇱", "Italy": "🇮🇹", "Latvia": "🇱🇻", 
+  "Liechtenstein": "🇱🇮", "Lithuania": "🇱🇹", "Luxembourg": "🇱🇺", "Malta": "🇲🇹", 
+  "Moldova": "🇲🇩", "Holland": "🇳🇱", "Norway": "🇳🇴", "Poland": "🇵🇱", 
+  "Portugal": "🇵🇹", "Romania": "🇷🇴", "Russia": "🇷🇺", "San Marino": "🇸🇲", 
+  "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Slovakia": "🇸🇰", "Slovenia": "🇸🇮", "Spain": "🇪🇸", 
+  "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Turkey": "🇹🇷", "Ukraine": "🇺🇦", 
+  "Wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "Serbia": "🇷🇸", "Argentina": "🇦🇷", "Bolivia": "🇧🇴", 
+  "Brazil": "🇧🇷", "Chile": "🇨🇱", "Colombia": "🇨🇴", "Ecuador": "🇪🇨", 
+  "Paraguay": "🇵🇾", "Peru": "🇵🇪", "Uruguay": "🇺🇾", "Venezuela": "🇻🇪", 
+  "Anguilla": "🇦🇮", "Antigua and Barbuda": "🇦🇬", "Aruba": "🇦🇼", "Bahamas": "🇧🇸", 
+  "Barbados": "🇧🇧", "Belize": "🇧🇿", "Bermuda": "🇧🇲", "British Virgin Islands": "🇻🇬", 
+  "Canada": "🇨🇦", "Cayman Islands": "🇰🇾", "Costa Rica": "🇨🇷", "Cuba": "🇨🇺", 
+  "Dominica": "🇩🇲", "El Salvador": "🇸🇻", "Grenada": "🇬🇩", "Guatemala": "🇬🇹", 
+  "Guyana": "🇬🇾", "Haiti": "🇭🇹", "Honduras": "🇭🇳", "Jamaica": "🇯🇲", 
+  "Mexico": "🇲🇽", "Montserrat": "🇲🇸", "Curaçao": "🇨🇼", "Nicaragua": "🇳🇮", 
+  "Panama": "🇵🇦", "Puerto Rico": "🇵🇷", "St. Kitts and Nevis": "🇰🇳", "St. Lucia": "🇱🇨", 
+  "St. Vincent and the Grenadines": "🇻🇨", "Suriname": "🇸🇷", "Trinidad and Tobago": "🇹🇹", 
+  "Turks and Caicos Islands": "🇹🇨", "United States": "🇺🇸", "US Virgin Islands": "🇻🇮", 
+  "Algeria": "🇩🇿", "Angola": "🇦🇴", "Benin": "🇧🇯", "Botswana": "🇧🇼", 
+  "Burkina Faso": "🇧🇫", "Burundi": "🇧🇮", "Cameroon": "🇨🇲", "Cape Verde Islands": "🇨🇻", 
+  "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Congo": "🇨🇬", "Côte d'Ivoire": "🇨🇮", 
+  "Djibouti": "🇩🇯", "Congo DR": "🇨🇩", "Egypt": "🇪🇬", "Equatorial Guinea": "🇬🇶", 
+  "Eritrea": "🇪🇷", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦", "Gambia": "🇬🇲", "Ghana": "🇬🇭", 
+  "Guinea": "🇬🇳", "Guinea-Bissau": "🇬🇼", "Kenya": "🇰🇪", "Lesotho": "🇱🇸", 
+  "Liberia": "🇱🇷", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Malawi": "🇲🇼", "Mali": "🇲🇱", 
+  "Mauritania": "🇲🇷", "Mauritius": "🇲🇺", "Morocco": "🇲🇦", "Mozambique": "🇲🇿", 
+  "Namibia": "🇳🇦", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Rwanda": "🇷🇼", 
+  "São Tomé e Príncipe": "🇸🇹", "Senegal": "🇸🇳", "Seychelles": "🇸🇨", "Sierra Leone": "🇸🇱", 
+  "Somalia": "🇸🇴", "South Africa": "🇿🇦", "Sudan": "🇸🇩", "Eswatini": "🇸🇿", 
+  "Tanzania": "🇹🇿", "Togo": "🇹🇬", "Tunisia": "🇹🇳", "Uganda": "🇺🇬", "Zambia": "🇿🇲", 
+  "Zimbabwe": "🇿🇼", "Afghanistan": "🇦🇫", "Bahrain": "🇧🇭", "Bangladesh": "🇧🇩", 
+  "Bhutan": "🇧🇹", "Brunei Darussalam": "🇧🇳", "Cambodia": "🇰🇭", "China PR": "🇨🇳", 
+  "Guam": "🇬🇺", "Hong Kong": "🇭🇰", "India": "🇮🇳", "Indonesia": "🇮🇩", "Iran": "🇮🇷", 
+  "Iraq": "🇮🇶", "Japan": "🇯🇵", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿", "Korea DPR": "🇰🇵", 
+  "Korea Republic": "🇰🇷", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬", "Laos": "🇱🇦", 
+  "Lebanon": "🇱🇧", "Macau": "🇲🇴", "Malaysia": "🇲🇾", "Maldives": "🇲🇻", 
+  "Mongolia": "🇲🇳", "Myanmar": "🇲🇲", "Nepal": "🇳🇵", "Oman": "🇴🇲", "Pakistan": "🇵🇰", 
+  "Palestine": "🇵🇸", "Philippines": "🇵🇭", "Qatar": "🇶🇦", "Saudi Arabia": "🇸🇦", 
+  "Singapore": "🇸🇬", "Sri Lanka": "🇱🇰", "Syria": "🇸🇾", "Tajikistan": "🇹🇯", 
+  "Thailand": "🇹🇭", "Turkmenistan": "🇹🇲", "United Arab Emirates": "🇦🇪", "Uzbekistan": "🇺🇿", 
+  "Vietnam": "🇻🇳", "Yemen": "🇾🇪", "American Samoa": "🇦🇸", "Australia": "🇦🇺", 
+  "Cook Islands": "🇨🇰", "Fiji": "🇫🇯", "New Zealand": "🇳🇿", "Papua New Guinea": "🇵🇬", 
+  "Samoa": "🇼🇸", "Solomon Islands": "🇸🇧", "Tahiti": "🇵🇫", "Tonga": "🇹🇴", 
+  "Vanuatu": "🇻🇺", "Gibraltar": "🇬🇮", "Greenland": "🇬🇱", "Dominican Republic": "🇩🇴", 
+  "Estonia": "🇪🇪", "Timor-Leste": "🇹🇱", "Chinese Taipei": "🇹🇼", "Comoros": "🇰🇲", 
+  "New Caledonia": "🇳🇨", "South Sudan": "🇸🇸", "Kosovo": "🇽🇰"
+};
+
 const POSITIONS = {
   0: "GK",
   2: "RWB",
@@ -417,7 +473,9 @@ function renderCard(player) {
 
   const sub = document.createElement("p");
   sub.className = "sticker-sub";
-  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span>${player.nation}</span>`;
+  // Look up the flag, fallback to the text name if no flag is found
+  const flagLogo = COUNTRY_FLAGS[player.nation] || player.nation; 
+  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span>${flagLogo}</span>`;
 
   const idLine = document.createElement("p");
   idLine.className = "sticker-id";
@@ -487,7 +545,7 @@ function openSheet(player) {
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
   );
   document.getElementById("sheet-number").textContent = `#${player.number || "-"}`;
-  document.getElementById("sheet-nation").textContent = player.nation;
+  document.getElementById("sheet-nation").textContent = COUNTRY_FLAGS[player.nation] || player.nation;
   document.getElementById("sheet-name").textContent = player.name;
   document.getElementById("sheet-meta").textContent = `${player.position} · ${player.club}`;
   document.getElementById("sheet-overall").textContent = player.overall;
