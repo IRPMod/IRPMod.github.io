@@ -287,6 +287,20 @@ main {
   line-height: 1;
 }
 
+.sticker-flag-img {
+  width: 20px;
+  height: auto;
+  border-radius: 2px;
+  display: block;
+}
+
+.sheet-flag-img {
+  width: 28px;
+  height: auto;
+  border-radius: 2px;
+  display: block;
+}
+
 .sticker-id {
   margin: 4px 0 0;
   font-family: 'Space Mono', monospace;
