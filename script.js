@@ -483,6 +483,28 @@ function crestPath(squadId) {
 function makePortraitEl(player, size) {
   const wrap = document.createElement("div");
   wrap.className = size === "small" ? "sticker-portrait" : "sheet-portrait";
+
+  if (size === "large") {
+    const frame = document.createElement("div");
+    frame.className = "sheet-portrait-frame";
+    const img = document.createElement("img");
+    img.loading = "lazy";
+    img.src = portraitPath(player.id);
+    img.alt = "";
+    img.onerror = () => {
+      img.src = "assets/portrait-placeholder.png";
+      img.onerror = null;
+    };
+    frame.appendChild(img);
+    wrap.appendChild(frame);
+
+    const num = document.createElement("div");
+    num.className = "sheet-portrait-num";
+    num.textContent = `#${player.number || "-"}`;
+    wrap.appendChild(num);
+    return wrap;
+  }
+
   const img = document.createElement("img");
   img.loading = "lazy";
   img.src = portraitPath(player.id);
@@ -492,12 +514,6 @@ function makePortraitEl(player, size) {
     img.onerror = null; // avoid loop if the placeholder itself is missing
   };
   wrap.appendChild(img);
-  if (size === "large") {
-    const num = document.createElement("div");
-    num.className = "sheet-portrait-num";
-    num.textContent = `#${player.number || "-"}`;
-    wrap.appendChild(num);
-  }
   return wrap;
 }
 
@@ -516,7 +532,7 @@ function renderCard(player) {
   const compareToggle = document.createElement("button");
   compareToggle.className = "compare-toggle";
   compareToggle.type = "button";
-  compareToggle.textContent = "+";
+  compareToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4"/><path d="M21 7H9"/><path d="M7 21l-4-4 4-4"/><path d="M3 17h12"/></svg>';
   compareToggle.setAttribute("aria-label", `Add ${player.name} to compare`);
   compareToggle.dataset.playerId = player.id;
   compareToggle.addEventListener("click", (e) => {
@@ -644,7 +660,6 @@ function syncCompareToggles() {
   document.querySelectorAll(".compare-toggle").forEach((btn) => {
     const active = compareSet.has(btn.dataset.playerId);
     btn.classList.toggle("active", active);
-    btn.textContent = active ? "✓" : "+";
   });
   if (sheetCompareBtn && currentActivePlayer) {
     sheetCompareBtn.classList.toggle("active", compareSet.has(currentActivePlayer.id));
