@@ -411,7 +411,7 @@ function idFromFilename(filename) {
   return dash === -1 ? filename : filename.slice(0, dash).trim();
 }
 
-function buildPlayer(row, filename, squadLabel) {
+function buildPlayer(row, filename, squadLabel, squadId) {
   const id = idFromFilename(filename);
   const name = nameFromFilename(filename);
   const nationCode = num(row, "nationality", -1);
@@ -429,6 +429,7 @@ function buildPlayer(row, filename, squadLabel) {
     posCode,
     position: POSITIONS[posCode] || (posCode >= 0 ? `POS #${posCode}` : "—"),
     club: squadLabel,
+    squadId,
     height: num(row, "height", 0),
     weight: num(row, "weight", 0),
     foot: FOOT[footCode] || "—",
@@ -466,6 +467,10 @@ function initials(name) {
 
 function portraitPath(id) {
   return `portraits/p${id}.png`;
+}
+
+function crestPath(squadId) {
+  return `crests/l${squadId}.png`;
 }
 
 function makePortraitEl(player, size) {
@@ -508,7 +513,7 @@ function renderCard(player) {
   sub.className = "sticker-sub";
   // Look up the flag, fallback to the text name if no flag is found
   const flagLogo = COUNTRY_FLAGS[player.nation] || player.nation; 
-  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span class="sticker-flag">${flagLogo}</span>`;
+  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span class="sticker-flags"><img class="sticker-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'"><span class="sticker-flag">${flagLogo}</span></span>`;
 
   const idLine = document.createElement("p");
   idLine.className = "sticker-id";
@@ -578,9 +583,11 @@ function openSheet(player) {
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
   );
   document.getElementById("sheet-number").textContent = `#${player.number || "-"}`;
-  document.getElementById("sheet-nation").textContent = COUNTRY_FLAGS[player.nation] || player.nation;
+  document.getElementById("sheet-nation").innerHTML =
+    `<img class="sheet-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'">` +
+    `<span>${COUNTRY_FLAGS[player.nation] || player.nation}</span>`;
   document.getElementById("sheet-name").textContent = player.name;
-  document.getElementById("sheet-meta").textContent = `${player.position} · ${player.club}`;
+  document.getElementById("sheet-meta").textContent = player.club;
   document.getElementById("sheet-overall").textContent = player.overall;
   document.getElementById("sheet-potential").textContent = player.potential;
 
@@ -596,6 +603,7 @@ function openSheet(player) {
   const bio = document.getElementById("bio-grid");
   const bioItems = [
     ["ID", player.id],
+    ["POS", player.position],
     ["Height", player.height ? `${player.height} cm` : "—"],
     ["Weight", player.weight ? `${player.weight} kg` : "—"],
     ["Foot", player.foot],
@@ -665,7 +673,7 @@ async function loadAllPlayers() {
       const request = fetchPlayerFile(path)
         .then(row => {
           // Pass 'squadName' instead of 'squad.label' into buildPlayer
-          if (row) return buildPlayer(row, file, squadName);
+          if (row) return buildPlayer(row, file, squadName, squad.id);
           return null;
         })
         .catch(err => {
