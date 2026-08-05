@@ -274,8 +274,8 @@ main {
 }
 
 .sticker-crest {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
 }
 
@@ -393,8 +393,8 @@ main {
   gap: 6px;
 }
 .sheet-crest {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
 }
 .sheet-name { margin: 1px 0; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: clamp(16px, 2.6vw, 20px); line-height: 1.1; color: var(--paper); }
