@@ -87,6 +87,7 @@
     <button class="close-btn" id="close-btn" aria-label="Close player sheet">&times;</button>
     <button class="share-btn" id="share-btn" aria-label="Copy shareable link" title="Copy link">🔗</button>
     <button class="download-btn" id="download-btn" aria-label="Download player card as PNG" title="Download card">⬇</button>
+    <button class="compare-btn" id="sheet-compare-btn" aria-label="Add to compare" title="Add to compare">⇄</button>
     <div class="sheet-header">
       <div class="sheet-portrait" id="sheet-portrait"></div>
       <div class="sheet-id">
@@ -111,9 +112,34 @@
       <div class="bio-grid" id="bio-grid"></div>
 
       <div class="attr-columns" id="attr-columns"></div>
+
+      <div class="similar-section">
+        <h3 class="similar-heading">Similar Players</h3>
+        <div class="similar-grid" id="similar-grid"></div>
+      </div>
     </div>
   </div>
 </div>
+<!-- Compare overlay: side-by-side stat comparison -->
+<div class="overlay" id="compare-overlay" hidden>
+  <div class="compare-sheet" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+    <button class="close-btn" id="compare-close-btn" aria-label="Close comparison">&times;</button>
+    <div class="compare-sheet-header">
+      <h2 id="compare-title">Player Comparison</h2>
+    </div>
+    <div class="compare-body" id="compare-body"></div>
+  </div>
+</div>
+
+<!-- Floating compare tray -->
+<div class="compare-bar" id="compare-bar" hidden>
+  <div class="compare-bar-chips" id="compare-bar-chips"></div>
+  <div class="compare-bar-actions">
+    <button class="compare-clear-btn" id="compare-clear-btn">Clear</button>
+    <button class="compare-go-btn" id="compare-go-btn" disabled>Compare (<span id="compare-count">0</span>)</button>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="script.js"></script>
 </body>
