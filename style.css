@@ -267,6 +267,18 @@ main {
   font-weight: 700;
 }
 
+.sticker-flags {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sticker-crest {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
 .sticker-flag {
   font-size: 16px;
   line-height: 1;
@@ -372,7 +384,19 @@ main {
 
 .sheet-id { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .sheet-number { font-family: 'Anton', sans-serif; font-size: 24px; color: var(--gold-bright); line-height: 1; }
-.sheet-nation { margin: 0; font-size: 22px; line-height: 1; }
+.sheet-nation {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sheet-crest {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
 .sheet-name { margin: 1px 0; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: clamp(16px, 2.6vw, 20px); line-height: 1.1; color: var(--paper); }
 .sheet-meta { margin: 0; font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 11px; color: #8A8880; }
 
