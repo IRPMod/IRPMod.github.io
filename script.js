@@ -265,59 +265,65 @@ const NATIONS = {
 
 // 1. The Data: Mapping names directly to flags
 const COUNTRY_FLAGS = {
-  "Albania": "🇦🇱", "Andorra": "🇦🇩", "Armenia": "🇦🇲", "Austria": "🇦🇹", 
-  "Azerbaijan": "🇦🇿", "Belarus": "🇧🇾", "Belgium": "🇧🇪", "Bosnia and Herzegovina": "🇧🇦", 
-  "Bulgaria": "🇧🇬", "Croatia": "🇭🇷", "Cyprus": "🇨🇾", "Czech Republic": "🇨🇿", 
-  "Denmark": "🇩🇰", "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Montenegro": "🇲🇪", "Faroe Islands": "🇫🇴", 
-  "Finland": "🇫🇮", "France": "🇫🇷", "North Macedonia": "🇲🇰", "Georgia": "🇬🇪", 
-  "Germany": "🇩🇪", "Greece": "🇬🇷", "Hungary": "🇭🇺", "Iceland": "🇮🇸", 
-  "Republic of Ireland": "🇮🇪", "Israel": "🇮🇱", "Italy": "🇮🇹", "Latvia": "🇱🇻", 
-  "Liechtenstein": "🇱🇮", "Lithuania": "🇱🇹", "Luxembourg": "🇱🇺", "Malta": "🇲🇹", 
-  "Moldova": "🇲🇩", "Holland": "🇳🇱", "Norway": "🇳🇴", "Poland": "🇵🇱", 
-  "Portugal": "🇵🇹", "Romania": "🇷🇴", "Russia": "🇷🇺", "San Marino": "🇸🇲", 
-  "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Slovakia": "🇸🇰", "Slovenia": "🇸🇮", "Spain": "🇪🇸", 
-  "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Turkey": "🇹🇷", "Ukraine": "🇺🇦", 
-  "Wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "Serbia": "🇷🇸", "Argentina": "🇦🇷", "Bolivia": "🇧🇴", 
-  "Brazil": "🇧🇷", "Chile": "🇨🇱", "Colombia": "🇨🇴", "Ecuador": "🇪🇨", 
-  "Paraguay": "🇵🇾", "Peru": "🇵🇪", "Uruguay": "🇺🇾", "Venezuela": "🇻🇪", 
-  "Anguilla": "🇦🇮", "Antigua and Barbuda": "🇦🇬", "Aruba": "🇦🇼", "Bahamas": "🇧🇸", 
-  "Barbados": "🇧🇧", "Belize": "🇧🇿", "Bermuda": "🇧🇲", "British Virgin Islands": "🇻🇬", 
-  "Canada": "🇨🇦", "Cayman Islands": "🇰🇾", "Costa Rica": "🇨🇷", "Cuba": "🇨🇺", 
-  "Dominica": "🇩🇲", "El Salvador": "🇸🇻", "Grenada": "🇬🇩", "Guatemala": "🇬🇹", 
-  "Guyana": "🇬🇾", "Haiti": "🇭🇹", "Honduras": "🇭🇳", "Jamaica": "🇯🇲", 
-  "Mexico": "🇲🇽", "Montserrat": "🇲🇸", "Curaçao": "🇨🇼", "Nicaragua": "🇳🇮", 
-  "Panama": "🇵🇦", "Puerto Rico": "🇵🇷", "St. Kitts and Nevis": "🇰🇳", "St. Lucia": "🇱🇨", 
-  "St. Vincent and the Grenadines": "🇻🇨", "Suriname": "🇸🇷", "Trinidad and Tobago": "🇹🇹", 
-  "Turks and Caicos Islands": "🇹🇨", "United States": "🇺🇸", "US Virgin Islands": "🇻🇮", 
-  "Algeria": "🇩🇿", "Angola": "🇦🇴", "Benin": "🇧🇯", "Botswana": "🇧🇼", 
-  "Burkina Faso": "🇧🇫", "Burundi": "🇧🇮", "Cameroon": "🇨🇲", "Cape Verde Islands": "🇨🇻", 
-  "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Congo": "🇨🇬", "Côte d'Ivoire": "🇨🇮", 
-  "Djibouti": "🇩🇯", "Congo DR": "🇨🇩", "Egypt": "🇪🇬", "Equatorial Guinea": "🇬🇶", 
-  "Eritrea": "🇪🇷", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦", "Gambia": "🇬🇲", "Ghana": "🇬🇭", 
-  "Guinea": "🇬🇳", "Guinea-Bissau": "🇬🇼", "Kenya": "🇰🇪", "Lesotho": "🇱🇸", 
-  "Liberia": "🇱🇷", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Malawi": "🇲🇼", "Mali": "🇲🇱", 
-  "Mauritania": "🇲🇷", "Mauritius": "🇲🇺", "Morocco": "🇲🇦", "Mozambique": "🇲🇿", 
-  "Namibia": "🇳🇦", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Rwanda": "🇷🇼", 
-  "São Tomé e Príncipe": "🇸🇹", "Senegal": "🇸🇳", "Seychelles": "🇸🇨", "Sierra Leone": "🇸🇱", 
-  "Somalia": "🇸🇴", "South Africa": "🇿🇦", "Sudan": "🇸🇩", "Eswatini": "🇸🇿", 
-  "Tanzania": "🇹🇿", "Togo": "🇹🇬", "Tunisia": "🇹🇳", "Uganda": "🇺🇬", "Zambia": "🇿🇲", 
-  "Zimbabwe": "🇿🇼", "Afghanistan": "🇦🇫", "Bahrain": "🇧🇭", "Bangladesh": "🇧🇩", 
-  "Bhutan": "🇧🇹", "Brunei Darussalam": "🇧🇳", "Cambodia": "🇰🇭", "China PR": "🇨🇳", 
-  "Guam": "🇬🇺", "Hong Kong": "🇭🇰", "India": "🇮🇳", "Indonesia": "🇮🇩", "Iran": "🇮🇷", 
-  "Iraq": "🇮🇶", "Japan": "🇯🇵", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿", "Korea DPR": "🇰🇵", 
-  "Korea Republic": "🇰🇷", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬", "Laos": "🇱🇦", 
-  "Lebanon": "🇱🇧", "Macau": "🇲🇴", "Malaysia": "🇲🇾", "Maldives": "🇲🇻", 
-  "Mongolia": "🇲🇳", "Myanmar": "🇲🇲", "Nepal": "🇳🇵", "Oman": "🇴🇲", "Pakistan": "🇵🇰", 
-  "Palestine": "🇵🇸", "Philippines": "🇵🇭", "Qatar": "🇶🇦", "Saudi Arabia": "🇸🇦", 
-  "Singapore": "🇸🇬", "Sri Lanka": "🇱🇰", "Syria": "🇸🇾", "Tajikistan": "🇹🇯", 
-  "Thailand": "🇹🇭", "Turkmenistan": "🇹🇲", "United Arab Emirates": "🇦🇪", "Uzbekistan": "🇺🇿", 
-  "Vietnam": "🇻🇳", "Yemen": "🇾🇪", "American Samoa": "🇦🇸", "Australia": "🇦🇺", 
-  "Cook Islands": "🇨🇰", "Fiji": "🇫🇯", "New Zealand": "🇳🇿", "Papua New Guinea": "🇵🇬", 
-  "Samoa": "🇼🇸", "Solomon Islands": "🇸🇧", "Tahiti": "🇵🇫", "Tonga": "🇹🇴", 
-  "Vanuatu": "🇻🇺", "Gibraltar": "🇬🇮", "Greenland": "🇬🇱", "Dominican Republic": "🇩🇴", 
-  "Estonia": "🇪🇪", "Timor-Leste": "🇹🇱", "Chinese Taipei": "🇹🇼", "Comoros": "🇰🇲", 
-  "New Caledonia": "🇳🇨", "South Sudan": "🇸🇸", "Kosovo": "🇽🇰"
+  "Albania": "al", "Andorra": "ad", "Armenia": "am", "Austria": "at",
+  "Azerbaijan": "az", "Belarus": "by", "Belgium": "be", "Bosnia and Herzegovina": "ba",
+  "Bulgaria": "bg", "Croatia": "hr", "Cyprus": "cy", "Czech Republic": "cz",
+  "Denmark": "dk", "England": "gb-eng", "Montenegro": "me", "Faroe Islands": "fo",
+  "Finland": "fi", "France": "fr", "North Macedonia": "mk", "Georgia": "ge",
+  "Germany": "de", "Greece": "gr", "Hungary": "hu", "Iceland": "is",
+  "Republic of Ireland": "ie", "Israel": "il", "Italy": "it", "Latvia": "lv",
+  "Liechtenstein": "li", "Lithuania": "lt", "Luxembourg": "lu", "Malta": "mt",
+  "Moldova": "md", "Holland": "nl", "Norway": "no", "Poland": "pl",
+  "Portugal": "pt", "Romania": "ro", "Russia": "ru", "San Marino": "sm",
+  "Scotland": "gb-sct", "Slovakia": "sk", "Slovenia": "si", "Spain": "es",
+  "Sweden": "se", "Switzerland": "ch", "Turkey": "tr", "Ukraine": "ua",
+  "Wales": "gb-wls", "Serbia": "rs", "Argentina": "ar", "Bolivia": "bo",
+  "Brazil": "br", "Chile": "cl", "Colombia": "co", "Ecuador": "ec",
+  "Paraguay": "py", "Peru": "pe", "Uruguay": "uy", "Venezuela": "ve",
+  "Anguilla": "ai", "Antigua and Barbuda": "ag", "Aruba": "aw", "Bahamas": "bs",
+  "Barbados": "bb", "Belize": "bz", "Bermuda": "bm", "British Virgin Islands": "vg",
+  "Canada": "ca", "Cayman Islands": "ky", "Costa Rica": "cr", "Cuba": "cu",
+  "Dominica": "dm", "El Salvador": "sv", "Grenada": "gd", "Guatemala": "gt",
+  "Guyana": "gy", "Haiti": "ht", "Honduras": "hn", "Jamaica": "jm",
+  "Mexico": "mx", "Montserrat": "ms", "Curaçao": "cw", "Nicaragua": "ni",
+  "Panama": "pa", "Puerto Rico": "pr", "St. Kitts and Nevis": "kn", "St. Lucia": "lc",
+  "St. Vincent and the Grenadines": "vc", "Suriname": "sr", "Trinidad and Tobago": "tt", "Turks and Caicos Islands": "tc",
+  "United States": "us", "US Virgin Islands": "vi", "Algeria": "dz", "Angola": "ao",
+  "Benin": "bj", "Botswana": "bw", "Burkina Faso": "bf", "Burundi": "bi",
+  "Cameroon": "cm", "Cape Verde Islands": "cv", "Central African Republic": "cf", "Chad": "td",
+  "Congo": "cg", "Côte d'Ivoire": "ci", "Djibouti": "dj", "Congo DR": "cd",
+  "Egypt": "eg", "Equatorial Guinea": "gq", "Eritrea": "er", "Ethiopia": "et",
+  "Gabon": "ga", "Gambia": "gm", "Ghana": "gh", "Guinea": "gn",
+  "Guinea-Bissau": "gw", "Kenya": "ke", "Lesotho": "ls", "Liberia": "lr",
+  "Libya": "ly", "Madagascar": "mg", "Malawi": "mw", "Mali": "ml",
+  "Mauritania": "mr", "Mauritius": "mu", "Morocco": "ma", "Mozambique": "mz",
+  "Namibia": "na", "Niger": "ne", "Nigeria": "ng", "Rwanda": "rw",
+  "São Tomé e Príncipe": "st", "Senegal": "sn", "Seychelles": "sc", "Sierra Leone": "sl",
+  "Somalia": "so", "South Africa": "za", "Sudan": "sd", "Eswatini": "sz",
+  "Tanzania": "tz", "Togo": "tg", "Tunisia": "tn", "Uganda": "ug",
+  "Zambia": "zm", "Zimbabwe": "zw", "Afghanistan": "af", "Bahrain": "bh",
+  "Bangladesh": "bd", "Bhutan": "bt", "Brunei Darussalam": "bn", "Cambodia": "kh",
+  "China PR": "cn", "Guam": "gu", "Hong Kong": "hk", "India": "in",
+  "Indonesia": "id", "Iran": "ir", "Iraq": "iq", "Japan": "jp",
+  "Jordan": "jo", "Kazakhstan": "kz", "Korea DPR": "kp", "Korea Republic": "kr",
+  "Kuwait": "kw", "Kyrgyzstan": "kg", "Laos": "la", "Lebanon": "lb",
+  "Macau": "mo", "Malaysia": "my", "Maldives": "mv", "Mongolia": "mn",
+  "Myanmar": "mm", "Nepal": "np", "Oman": "om", "Pakistan": "pk",
+  "Palestine": "ps", "Philippines": "ph", "Qatar": "qa", "Saudi Arabia": "sa",
+  "Singapore": "sg", "Sri Lanka": "lk", "Syria": "sy", "Tajikistan": "tj",
+  "Thailand": "th", "Turkmenistan": "tm", "United Arab Emirates": "ae", "Uzbekistan": "uz",
+  "Vietnam": "vn", "Yemen": "ye", "American Samoa": "as", "Australia": "au",
+  "Cook Islands": "ck", "Fiji": "fj", "New Zealand": "nz", "Papua New Guinea": "pg",
+  "Samoa": "ws", "Solomon Islands": "sb", "Tahiti": "pf", "Tonga": "to",
+  "Vanuatu": "vu", "Gibraltar": "gi", "Greenland": "gl", "Dominican Republic": "do",
+  "Estonia": "ee", "Timor-Leste": "tl", "Chinese Taipei": "tw", "Comoros": "km",
+  "New Caledonia": "nc", "South Sudan": "ss", "Kosovo": "xk",
 };
+
+function flagUrl(nation) {
+  const code = COUNTRY_FLAGS[nation];
+  return code ? `https://flagcdn.com/w40/${code}.png` : null;
+}
 
 const POSITIONS = {
   0: "GK",
@@ -513,8 +519,11 @@ function renderCard(player) {
   const sub = document.createElement("p");
   sub.className = "sticker-sub";
   // Look up the flag, fallback to the text name if no flag is found
-  const flagLogo = COUNTRY_FLAGS[player.nation] || player.nation; 
-  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span class="sticker-flags"><img class="sticker-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'"><span class="sticker-flag">${flagLogo}</span></span>`;
+  const flagSrc = flagUrl(player.nation);
+  const flagImg = flagSrc
+    ? `<img class="sticker-flag-img" src="${flagSrc}" alt="${player.nation}" onerror="this.style.display='none'">`
+    : `<span class="sticker-flag">${player.nation}</span>`;
+  sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span class="sticker-flags"><img class="sticker-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'">${flagImg}</span>`;
 
   const idLine = document.createElement("p");
   idLine.className = "sticker-id";
@@ -590,9 +599,13 @@ function openSheet(player) {
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
   );
   document.getElementById("sheet-number").textContent = `#${player.number || "-"}`;
+  const sheetFlagSrc = flagUrl(player.nation);
+  const sheetFlagImg = sheetFlagSrc
+    ? `<img class="sheet-flag-img" src="${sheetFlagSrc}" alt="${player.nation}" onerror="this.style.display='none'">`
+    : `<span>${player.nation}</span>`;
   document.getElementById("sheet-nation").innerHTML =
     `<img class="sheet-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'">` +
-    `<span>${COUNTRY_FLAGS[player.nation] || player.nation}</span>`;
+    sheetFlagImg;
   document.getElementById("sheet-name").textContent = player.name;
   document.getElementById("sheet-meta").textContent = player.club;
   document.getElementById("sheet-overall").textContent = player.overall;
