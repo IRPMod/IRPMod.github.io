@@ -492,6 +492,12 @@ function makePortraitEl(player, size) {
     img.onerror = null; // avoid loop if the placeholder itself is missing
   };
   wrap.appendChild(img);
+  if (size === "large") {
+    const num = document.createElement("div");
+    num.className = "sheet-portrait-num";
+    num.textContent = `#${player.number || "-"}`;
+    wrap.appendChild(num);
+  }
   return wrap;
 }
 
@@ -769,14 +775,13 @@ function openSheet(player) {
   document.getElementById("sheet-portrait").replaceWith(
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
   );
-  document.getElementById("sheet-number").textContent = `#${player.number || "-"}`;
   const sheetFlagSrc = flagUrl(player.nation);
   const sheetFlagImg = sheetFlagSrc
-    ? `<img class="sheet-flag-img" src="${sheetFlagSrc}" alt="${player.nation}" onerror="this.style.display='none'">`
+    ? `<img src="${sheetFlagSrc}" alt="${player.nation}" onerror="this.style.display='none'">`
     : `<span>${player.nation}</span>`;
   document.getElementById("sheet-nation").innerHTML =
-    `<img class="sheet-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'">` +
-    sheetFlagImg;
+    sheetFlagImg +
+    `<img src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'">`;
   document.getElementById("sheet-name").textContent = player.name;
   document.getElementById("sheet-meta").textContent = player.club;
   document.getElementById("sheet-overall").textContent = player.overall;
@@ -881,6 +886,8 @@ closeSheet = function() {
 };
 
 // Copy link functionality
+const SHARE_ICON = shareBtn.innerHTML;
+const CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 shareBtn.addEventListener("click", async () => {
   if (!currentActivePlayer) return;
   
@@ -889,10 +896,10 @@ shareBtn.addEventListener("click", async () => {
     await navigator.clipboard.writeText(shareUrl);
     const originalTitle = shareBtn.title;
     shareBtn.title = "Copied!";
-    shareBtn.textContent = "✓";
+    shareBtn.innerHTML = CHECK_ICON;
     setTimeout(() => {
       shareBtn.title = originalTitle;
-      shareBtn.textContent = "🔗";
+      shareBtn.innerHTML = SHARE_ICON;
     }, 2000);
   } catch (err) {
     console.error("Failed to copy link: ", err);
@@ -907,7 +914,6 @@ downloadBtn.addEventListener("click", async () => {
   if (!statSheetEl) return;
 
   downloadBtn.disabled = true;
-  downloadBtn.textContent = "⌛";
 
   try {
     // Render the stat sheet modal element into a canvas
@@ -925,7 +931,6 @@ downloadBtn.addEventListener("click", async () => {
     console.error("Failed to generate player card image:", err);
   } finally {
     downloadBtn.disabled = false;
-    downloadBtn.textContent = "⬇";
   }
 });
 
