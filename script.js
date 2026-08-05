@@ -673,7 +673,96 @@ overlay.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !overlay.hidden) closeSheet();
 });
+/* ---------- share and download handlers ---------- */
 
+const shareBtn = document.getElementById("share-btn");
+const downloadBtn = document.getElementById("download-btn");
+
+let currentActivePlayer = null;
+
+// Extend openSheet to keep track of the currently active player for sharing/downloading
+const originalOpenSheet = openSheet;
+openSheet = function(player) {
+  currentActivePlayer = player;
+  // Update browser URL query string seamlessly without reloading page
+  const newUrl = new URL(window.location);
+  newUrl.searchParams.set('player', player.id);
+  window.history.replaceState({}, '', newUrl);
+  
+  originalOpenSheet(player);
+};
+
+// Extend closeSheet to clean up URL search parameter if desired
+const originalCloseSheet = closeSheet;
+closeSheet = function() {
+  const newUrl = new URL(window.location);
+  newUrl.searchParams.delete('player');
+  window.history.replaceState({}, '', newUrl);
+  currentActivePlayer = null;
+  
+  originalCloseSheet();
+};
+
+// Copy link functionality
+shareBtn.addEventListener("click", async () => {
+  if (!currentActivePlayer) return;
+  
+  const shareUrl = window.location.href;
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    const originalTitle = shareBtn.title;
+    shareBtn.title = "Copied!";
+    shareBtn.textContent = "✓";
+    setTimeout(() => {
+      shareBtn.title = originalTitle;
+      shareBtn.textContent = "🔗";
+    }, 2000);
+  } catch (err) {
+    console.error("Failed to copy link: ", err);
+  }
+});
+
+// Download card as PNG functionality
+downloadBtn.addEventListener("click", async () => {
+  if (!currentActivePlayer) return;
+  
+  const statSheetEl = document.querySelector(".stat-sheet");
+  if (!statSheetEl) return;
+
+  downloadBtn.disabled = true;
+  downloadBtn.textContent = "⌛";
+
+  try {
+    // Render the stat sheet modal element into a canvas
+    const canvas = await html2canvas(statSheetEl, {
+      scale: 2, // Higher resolution output
+      useCORS: true,
+      backgroundColor: "#161616" // Matches --panel design token
+    });
+
+    const link = document.createElement("a");
+    link.download = `${currentActivePlayer.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_card.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  } catch (err) {
+    console.error("Failed to generate player card image:", err);
+  } finally {
+    downloadBtn.disabled = false;
+    downloadBtn.textContent = "⬇";
+  }
+});
+
+// Check if a player parameter was passed on initial page load
+async function checkUrlPlayerParam() {
+  const params = new URLSearchParams(window.location.search);
+  const playerId = params.get('player');
+  if (playerId && ALL_PLAYERS.length > 0) {
+    const found = ALL_PLAYERS.find(p => p.id === playerId);
+    if (found) {
+      openSheet(found);
+    }
+  }
+}
 /* ---------- boot ---------- */
 
 async function loadAllPlayers() {
@@ -716,10 +805,13 @@ async function init() {
   try {
     ALL_PLAYERS = await loadAllPlayers();
     squadCount.textContent = String(ALL_PLAYERS.length).padStart(3, "0");
-     const teamSet = new Set(ALL_PLAYERS.map((p) => p.club));
+    const teamSet = new Set(ALL_PLAYERS.map((p) => p.club));
     teamCount.textContent = String(teamSet.size).padStart(2, "0");
     populatePositionFilter();
     applyFiltersAndRender();
+    
+    // Check if URL contains a direct target player query
+    checkUrlPlayerParam();
 
     // Fade out and remove the loader
     const loader = document.getElementById("loading-screen");
@@ -734,7 +826,6 @@ async function init() {
     resultsLine.textContent = "CRITICAL ERROR, PLEASE REFRESH.";
     console.error(err);
     
-    // Remove loader even if there is an error so the user can see the error message
     const loader = document.getElementById("loading-screen");
     if (loader) loader.remove();
   }
