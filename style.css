@@ -373,6 +373,47 @@ main {
 }
 .close-btn:hover { background: var(--gold); color: var(--black); }
 
+.share-btn {
+  position: absolute;
+  top: 8px;
+  right: 44px;
+  background: rgba(255,255,255,0.1);
+  color: var(--paper);
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.share-btn:hover { background: var(--gold); color: var(--black); }
+
+.download-btn {
+  position: absolute;
+  top: 8px;
+  right: 78px;
+  background: rgba(255,255,255,0.1);
+  color: var(--paper);
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.download-btn:hover { background: var(--gold); color: var(--black); }
+.download-btn:disabled { opacity: 0.5; cursor: wait; }
+
 .sheet-header {
   background: var(--panel-alt);
   border-bottom: 1px solid var(--line);
