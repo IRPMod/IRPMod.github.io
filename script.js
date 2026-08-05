@@ -452,6 +452,7 @@ const searchInput = document.getElementById("search");
 const positionFilter = document.getElementById("position-filter");
 const sortBy = document.getElementById("sort-by");
 const squadCount = document.getElementById("squad-count");
+const teamCount = document.getElementById("team-count");
 
 let ALL_PLAYERS = [];
 
@@ -702,6 +703,8 @@ async function init() {
   try {
     ALL_PLAYERS = await loadAllPlayers();
     squadCount.textContent = String(ALL_PLAYERS.length).padStart(3, "0");
+     const teamSet = new Set(ALL_PLAYERS.map((p) => p.club));
+    teamCount.textContent = String(teamSet.size).padStart(2, "0");
     populatePositionFilter();
     applyFiltersAndRender();
 
