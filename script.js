@@ -504,7 +504,21 @@ function renderCard(player) {
 
   const top = document.createElement("div");
   top.className = "sticker-top";
-  top.innerHTML = `<span class="sticker-num">#${player.number || "-"}</span>`;
+  const left = document.createElement("span");
+  left.className = "sticker-left";
+  left.innerHTML = `<span class="sticker-num">#${player.number || "-"}</span>`;
+  const compareToggle = document.createElement("button");
+  compareToggle.className = "compare-toggle";
+  compareToggle.type = "button";
+  compareToggle.textContent = "+";
+  compareToggle.setAttribute("aria-label", `Add ${player.name} to compare`);
+  compareToggle.dataset.playerId = player.id;
+  compareToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleCompare(player);
+  });
+  left.appendChild(compareToggle);
+  top.appendChild(left);
   const ovr = document.createElement("span");
   ovr.className = "sticker-ovr";
   ovr.textContent = player.overall;
@@ -594,6 +608,163 @@ function populatePositionFilter() {
 const overlay = document.getElementById("overlay");
 const closeBtn = document.getElementById("close-btn");
 
+/* ---------- compare mode ---------- */
+
+const compareSet = new Map(); // id -> player, insertion-ordered, max 3
+const compareBar = document.getElementById("compare-bar");
+const compareBarChips = document.getElementById("compare-bar-chips");
+const compareCountEl = document.getElementById("compare-count");
+const compareGoBtn = document.getElementById("compare-go-btn");
+const compareClearBtn = document.getElementById("compare-clear-btn");
+const compareOverlay = document.getElementById("compare-overlay");
+const compareCloseBtn = document.getElementById("compare-close-btn");
+const compareBody = document.getElementById("compare-body");
+const sheetCompareBtn = document.getElementById("sheet-compare-btn");
+
+function toggleCompare(player) {
+  if (compareSet.has(player.id)) {
+    compareSet.delete(player.id);
+  } else {
+    if (compareSet.size >= 3) {
+      compareSet.delete(compareSet.keys().next().value);
+    }
+    compareSet.set(player.id, player);
+  }
+  syncCompareToggles();
+  renderCompareBar();
+}
+
+function syncCompareToggles() {
+  document.querySelectorAll(".compare-toggle").forEach((btn) => {
+    const active = compareSet.has(btn.dataset.playerId);
+    btn.classList.toggle("active", active);
+    btn.textContent = active ? "✓" : "+";
+  });
+  if (sheetCompareBtn && currentActivePlayer) {
+    sheetCompareBtn.classList.toggle("active", compareSet.has(currentActivePlayer.id));
+  }
+}
+
+function renderCompareBar() {
+  const players = Array.from(compareSet.values());
+  compareBar.hidden = players.length === 0;
+  compareBarChips.innerHTML = players
+    .map(
+      (p) => `<span class="compare-chip" data-id="${p.id}">
+        <img src="${portraitPath(p.id)}" alt="" onerror="this.style.display='none'">
+        <span>${p.name}</span>
+        <button type="button" aria-label="Remove ${p.name} from compare">&times;</button>
+      </span>`
+    )
+    .join("");
+  compareBarChips.querySelectorAll(".compare-chip button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.closest(".compare-chip").dataset.id;
+      const player = compareSet.get(id);
+      if (player) toggleCompare(player);
+    });
+  });
+  compareCountEl.textContent = String(players.length);
+  compareGoBtn.disabled = players.length < 2;
+}
+
+function openCompareOverlay() {
+  const players = Array.from(compareSet.values());
+  if (players.length < 2) return;
+
+  const row = (label, vals, best) => {
+    const max = Math.max(...vals);
+    return `<div class="compare-row" style="grid-template-columns: 120px repeat(${players.length}, 1fr)">
+      <div class="compare-row-label">${label}</div>
+      ${vals.map((v) => `<div class="compare-val ${best !== false && v === max ? "best" : ""}">${v}</div>`).join("")}
+    </div>`;
+  };
+
+  let html = `<div class="compare-row compare-row-head" style="grid-template-columns: 120px repeat(${players.length}, 1fr)">
+    <div></div>
+    ${players
+      .map(
+        (p) => `<div class="compare-player">
+          <div class="compare-portrait"><img src="${portraitPath(p.id)}" alt="" onerror="this.style.display='none'"></div>
+          <div class="compare-name">${p.name}</div>
+          <div class="compare-sub">${p.position} · ${p.club}</div>
+        </div>`
+      )
+      .join("")}
+  </div>`;
+
+  html += row("OVR", players.map((p) => p.overall));
+  html += row("POT", players.map((p) => p.potential));
+  Object.keys(players[0].stats).forEach((statKey) => {
+    html += row(statKey, players.map((p) => p.stats[statKey]));
+  });
+
+  Object.entries(ATTR_COLUMNS).forEach(([groupName, keys]) => {
+    html += `<div class="compare-group-header">${groupName}</div>`;
+    keys.forEach((key) => {
+      html += row(ATTR_LABELS[key] || key, players.map((p) => num(p.raw, key, 0)));
+    });
+  });
+
+  compareBody.innerHTML = html;
+  compareOverlay.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeCompareOverlay() {
+  compareOverlay.hidden = true;
+  document.body.style.overflow = overlay.hidden ? "" : "hidden";
+}
+
+compareGoBtn.addEventListener("click", openCompareOverlay);
+compareClearBtn.addEventListener("click", () => {
+  compareSet.clear();
+  syncCompareToggles();
+  renderCompareBar();
+});
+compareCloseBtn.addEventListener("click", closeCompareOverlay);
+compareOverlay.addEventListener("click", (e) => {
+  if (e.target === compareOverlay) closeCompareOverlay();
+});
+sheetCompareBtn.addEventListener("click", () => {
+  if (currentActivePlayer) toggleCompare(currentActivePlayer);
+});
+
+/* ---------- similar players (stat-distance) ---------- */
+
+function statDistance(a, b) {
+  return Math.sqrt(
+    Object.keys(a.stats).reduce((sum, key) => {
+      const diff = (a.stats[key] || 0) - (b.stats[key] || 0);
+      return sum + diff * diff;
+    }, 0)
+  );
+}
+
+function findSimilarPlayers(player, count = 6) {
+  return ALL_PLAYERS
+    .filter((p) => p.id !== player.id)
+    .map((p) => ({ player: p, dist: statDistance(player, p) }))
+    .sort((a, b) => a.dist - b.dist)
+    .slice(0, count)
+    .map((entry) => entry.player);
+}
+
+function renderSimilarPlayers(player) {
+  const grid = document.getElementById("similar-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  findSimilarPlayers(player).forEach((sp) => {
+    const card = document.createElement("div");
+    card.className = "similar-card";
+    card.innerHTML = `<div class="similar-portrait"><img src="${portraitPath(sp.id)}" alt="" onerror="this.style.display='none'"></div>
+      <div class="similar-name">${sp.name}</div>
+      <div class="similar-meta">${sp.position} · ${sp.overall} OVR</div>`;
+    card.addEventListener("click", () => openSheet(sp));
+    grid.appendChild(card);
+  });
+}
+
 function openSheet(player) {
   document.getElementById("sheet-portrait").replaceWith(
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
@@ -656,6 +827,9 @@ function openSheet(player) {
     cols.appendChild(group);
   });
 
+  renderSimilarPlayers(player);
+  syncCompareToggles();
+
   overlay.hidden = false;
   closeBtn.focus();
   document.body.style.overflow = "hidden";
@@ -671,7 +845,10 @@ overlay.addEventListener("click", (e) => {
   if (e.target === overlay) closeSheet();
 });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !overlay.hidden) closeSheet();
+  if (e.key === "Escape") {
+    if (!compareOverlay.hidden) closeCompareOverlay();
+    else if (!overlay.hidden) closeSheet();
+  }
 });
 /* ---------- share and download handlers ---------- */
 
