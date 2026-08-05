@@ -563,9 +563,15 @@ function applyFiltersAndRender() {
   resultsLine.textContent = `Showing ${list.length} of ${ALL_PLAYERS.length} players`;
 }
 
+const POSITION_ORDER = ["GK", "CB", "RB", "LB", "RWB", "LWB", "CDM", "CM", "CAM", "RM", "LM", "RW", "LW", "ST"];
+
 function populatePositionFilter() {
-  const positions = [...new Set(ALL_PLAYERS.map((p) => p.position))].sort();
-  positions.forEach((pos) => {
+  const present = new Set(ALL_PLAYERS.map((p) => p.position));
+  const ordered = POSITION_ORDER.filter((pos) => present.has(pos));
+  // catch any position that shows up in the data but isn't in POSITION_ORDER yet
+  const leftovers = [...present].filter((pos) => !POSITION_ORDER.includes(pos)).sort();
+
+  [...ordered, ...leftovers].forEach((pos) => {
     const opt = document.createElement("option");
     opt.value = pos;
     opt.textContent = pos;
