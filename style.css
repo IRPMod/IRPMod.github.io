@@ -510,7 +510,7 @@ main {
 /* ---------- responsive ---------- */
 @media (max-width: 720px) {
   .masthead-inner { grid-template-columns: auto 1fr; }
-  .scoreboard { grid-column: 1 / -1; justify-self: center; }
+  .scoreboard-group { grid-column: 1 / -1; justify-self: center; }
   .controls { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   .six-stats { grid-template-columns: repeat(3, 1fr); }
