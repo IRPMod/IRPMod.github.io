@@ -84,25 +84,30 @@
 <!-- Detail overlay: back-of-the-sticker stat sheet -->
 <div class="overlay" id="overlay" hidden>
   <div class="stat-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-name">
-    <button class="close-btn" id="close-btn" aria-label="Close player sheet">&times;</button>
-    <button class="share-btn" id="share-btn" aria-label="Copy shareable link" title="Copy link">🔗</button>
-    <button class="download-btn" id="download-btn" aria-label="Download player card as PNG" title="Download card">⬇</button>
-    <button class="compare-btn" id="sheet-compare-btn" aria-label="Add to compare" title="Add to compare">⇄</button>
+    <div class="sheet-toolbar">
+      <button class="compare-btn" id="sheet-compare-btn" aria-label="Add to compare" title="Add to compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4"/><path d="M21 7H9"/><path d="M7 21l-4-4 4-4"/><path d="M3 17h12"/></svg>
+      </button>
+      <button class="share-btn" id="share-btn" aria-label="Copy shareable link" title="Copy link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </button>
+      <button class="download-btn" id="download-btn" aria-label="Download player card as PNG" title="Download card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      </button>
+      <button class="close-btn" id="close-btn" aria-label="Close player sheet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
     <div class="sheet-header">
       <div class="sheet-portrait" id="sheet-portrait"></div>
-      <div class="sheet-id">
-        <span class="sheet-number" id="sheet-number">7</span>
-        <div>
-          <p class="sheet-nation" id="sheet-nation">Portugal</p>
-          <h2 id="sheet-name">Cristiano Ronaldo</h2>
-          <p class="sheet-meta" id="sheet-meta">Forward · Real Madrid</p>
-        </div>
+      <div class="sheet-info">
+        <div class="sheet-flags" id="sheet-nation"></div>
+        <h2 id="sheet-name">Cristiano Ronaldo</h2>
+        <p class="sheet-subline" id="sheet-meta">Real Madrid</p>
       </div>
-      <div class="sheet-rating">
-        <span class="sheet-rating-value" id="sheet-overall">94</span>
-        <span class="sheet-rating-label">OVR</span>
-        <span class="sheet-rating-value small" id="sheet-potential">94</span>
-        <span class="sheet-rating-label">POT</span>
+      <div class="sheet-ratings">
+        <div class="sheet-rating-box"><span class="sheet-rating-value" id="sheet-overall">94</span><span class="sheet-rating-label">OVR</span></div>
+        <div class="sheet-rating-box pot"><span class="sheet-rating-value" id="sheet-potential">94</span><span class="sheet-rating-label">POT</span></div>
       </div>
     </div>
 
