@@ -39,7 +39,21 @@ const SQUAD_NAME_MAP = {
   "150036": "Lille (2020-21)",
   "150038": "Inter Milan (2009-10)",
   "150041": "Borussia Dortmund (2020-21)",
-  "150044": "Newcastle United (1995-96)"
+  "150044": "Newcastle United (1995-96)",
+  "150003": "Spain (2010)",
+  "150016": "IRP All-Time XI",
+  "150017": "France (2018)",
+  "150018": "Germany (2014)",
+  "150021": "France (1998)",
+  "150022": "Brazil (1998)",
+  "150023": "Netherlands (1998)",
+  "150024": "Croatia (1998)",
+  "150029": "Brazil (2002)",
+  "150030": "Italy (2006)",
+  "150039": "Portugal (2016)",
+  "150040": "Brazil (2014)",
+  "150042": "Belgium (2018)",
+  "150043": "Croatia (2018)"
 };
 
 const NATIONS = {
