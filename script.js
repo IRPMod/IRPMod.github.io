@@ -531,9 +531,11 @@ function makePortraitEl(player, size) {
   return wrap;
 }
 
+const LEGEND_SQUAD_ID = "150016"; // IRP All-Time XI — gets the gold legend treatment
+
 function renderCard(player) {
   const card = document.createElement("article");
-  card.className = "sticker";
+  card.className = player.squadId === LEGEND_SQUAD_ID ? "sticker sticker-legend" : "sticker";
   card.tabIndex = 0;
   card.setAttribute("role", "button");
   card.setAttribute("aria-label", `View ${player.name}`);
