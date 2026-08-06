@@ -202,17 +202,17 @@ main {
 .sticker:focus-visible { outline: 1px solid var(--gold-bright); outline-offset: 1px; }
 
 .sticker-legend {
-  border-color: var(--gold);
-  background: linear-gradient(rgba(201, 162, 39, 0.18), rgba(201, 162, 39, 0.18)), var(--panel);
-  box-shadow: inset 0 0 0 1px rgba(201, 162, 39, 0.35);
+  border-color: #D46A9E;
+  background: linear-gradient(rgba(212, 106, 158, 0.18), rgba(212, 106, 158, 0.18)), var(--panel);
+  box-shadow: inset 0 0 0 1px rgba(212, 106, 158, 0.35);
 }
 .sticker-legend:hover,
 .sticker-legend:focus-visible {
-  border-color: var(--gold-bright);
-  box-shadow: inset 0 0 0 1px var(--gold-bright), 0 6px 16px rgba(201, 162, 39, 0.25);
+  border-color: #E58BB6;
+  box-shadow: inset 0 0 0 1px #E58BB6, 0 6px 16px rgba(212, 106, 158, 0.25);
 }
-.sticker-legend .sticker-name { color: var(--gold-bright); }
-.sticker-legend .sticker-portrait { border: 1px solid var(--gold); }
+.sticker-legend .sticker-name { color: #E58BB6; }
+.sticker-legend .sticker-portrait { border: 1px solid #D46A9E; }
 
 .sticker-top {
   display: flex;
