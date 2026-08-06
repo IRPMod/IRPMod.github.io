@@ -593,6 +593,32 @@ main {
   .six-stats { grid-template-columns: repeat(3, 1fr); }
   .sheet-header { padding: 16px; }
   .sheet-ratings { width: 100%; justify-content: center; }
+
+  /* compare tray: desktop stays a centered row; mobile becomes a stacked full-width panel */
+  .compare-bar {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    transform: none;
+    max-width: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px;
+  }
+  .compare-bar-chips {
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .compare-chip { flex-shrink: 0; }
+  .compare-chip span { max-width: 60px; }
+  .compare-bar-actions { justify-content: stretch; }
+  .compare-clear-btn, .compare-go-btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -631,6 +657,16 @@ main {
   transition: border-color 0.12s ease;
 }
 .similar-card:hover { border-color: var(--gold); }
+.similar-card-legend {
+  border-color: #D46A9E;
+  background: linear-gradient(rgba(212, 106, 158, 0.18), rgba(212, 106, 158, 0.18)), var(--panel-alt);
+  box-shadow: inset 0 0 0 1px rgba(212, 106, 158, 0.35);
+}
+.similar-card-legend:hover {
+  border-color: #E58BB6;
+  box-shadow: inset 0 0 0 1px #E58BB6, 0 4px 12px rgba(212, 106, 158, 0.25);
+}
+.similar-card-legend .similar-name { color: #E58BB6; }
 .similar-portrait {
   width: 100%;
   aspect-ratio: 1 / 1;
