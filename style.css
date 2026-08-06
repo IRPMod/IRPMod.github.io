@@ -593,32 +593,6 @@ main {
   .six-stats { grid-template-columns: repeat(3, 1fr); }
   .sheet-header { padding: 16px; }
   .sheet-ratings { width: 100%; justify-content: center; }
-
-  /* compare tray: desktop stays a centered row; mobile becomes a stacked full-width panel */
-  .compare-bar {
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    transform: none;
-    max-width: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding: 10px;
-  }
-  .compare-bar-chips {
-    overflow-x: auto;
-    padding-bottom: 2px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .compare-chip { flex-shrink: 0; }
-  .compare-chip span { max-width: 60px; }
-  .compare-bar-actions { justify-content: stretch; }
-  .compare-clear-btn, .compare-go-btn {
-    flex: 1;
-    text-align: center;
-    padding: 9px 10px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -728,6 +702,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 3px 8px 3px 3px;
+  min-width: 0;
 }
 .compare-chip img {
   width: 20px;
@@ -735,12 +710,14 @@ main {
   border-radius: 50%;
   object-fit: cover;
   background: var(--panel);
+  flex-shrink: 0;
 }
 .compare-chip span {
   font-family: 'Oswald', sans-serif;
   font-size: 11px;
   color: var(--paper);
   max-width: 90px;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -877,4 +854,38 @@ main {
   border-bottom: 1px solid var(--gold);
   padding: 14px 0 4px;
   margin-top: 4px;
+}
+
+/* compare tray on mobile: desktop stays a centered row; this stacks it into a
+   full-width panel instead. Placed after the base .compare-bar rules above so
+   it actually wins the cascade at narrow widths. */
+@media (max-width: 720px) {
+  .compare-bar {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    top: auto;
+    width: auto;
+    position: fixed;
+    transform: none;
+    max-width: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px;
+  }
+  .compare-bar-chips {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .compare-chip { flex-shrink: 0; }
+  .compare-chip span { max-width: 60px; }
+  .compare-bar-actions { justify-content: stretch; width: 100%; }
+  .compare-clear-btn, .compare-go-btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 10px;
+  }
 }
