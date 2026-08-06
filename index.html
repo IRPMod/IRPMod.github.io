@@ -128,7 +128,11 @@
 <!-- Compare overlay: side-by-side stat comparison -->
 <div class="overlay" id="compare-overlay" hidden>
   <div class="compare-sheet" role="dialog" aria-modal="true" aria-labelledby="compare-title">
-    <button class="close-btn" id="compare-close-btn" aria-label="Close comparison">&times;</button>
+    <div class="compare-toolbar">
+      <button class="close-btn" id="compare-close-btn" aria-label="Close comparison">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
     <div class="compare-sheet-header">
       <h2 id="compare-title">Player Comparison</h2>
     </div>
