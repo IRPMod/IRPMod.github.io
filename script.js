@@ -721,10 +721,10 @@ function openCompareOverlay() {
     <div></div>
     ${players
       .map(
-        (p) => `<div class="compare-player">
+        (p) => `<div class="compare-player${p.squadId === LEGEND_SQUAD_ID ? " compare-player-legend" : ""}">
           <div class="compare-portrait"><img src="${portraitPath(p.id)}" alt="" onerror="this.style.display='none'"></div>
           <div class="compare-name">${p.name}</div>
-          <div class="compare-sub">${p.position} · ${p.club}</div>
+          <div class="compare-sub">${p.club}</div>
         </div>`
       )
       .join("")}
