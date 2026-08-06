@@ -803,10 +803,9 @@ function renderSimilarPlayers(player) {
 }
 
 function openSheet(player) {
-  document.querySelector(".sheet-header").classList.toggle(
-    "sheet-header-legend",
-    player.squadId === LEGEND_SQUAD_ID
-  );
+  const isLegend = player.squadId === LEGEND_SQUAD_ID;
+  document.querySelector(".sheet-toolbar").classList.toggle("sheet-toolbar-legend", isLegend);
+  document.querySelector(".sheet-header").classList.toggle("sheet-header-legend", isLegend);
   document.getElementById("sheet-portrait").replaceWith(
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
   );
