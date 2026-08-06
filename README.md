@@ -4,5 +4,5 @@
 </div>
 
 <div align="center">
-  <img src="assets/assets/logo.png" width="400"/>
+  <img src="assets/squared_logo.png" width="400"/>
 </div>
