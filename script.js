@@ -793,7 +793,7 @@ function renderSimilarPlayers(player) {
   grid.innerHTML = "";
   findSimilarPlayers(player).forEach((sp) => {
     const card = document.createElement("div");
-    card.className = "similar-card";
+    card.className = sp.squadId === LEGEND_SQUAD_ID ? "similar-card similar-card-legend" : "similar-card";
     card.innerHTML = `<div class="similar-portrait"><img src="${portraitPath(sp.id)}" alt="" onerror="this.style.display='none'"></div>
       <div class="similar-name">${sp.name}</div>
       <div class="similar-meta">${sp.position} · ${sp.overall} OVR</div>`;
@@ -895,29 +895,48 @@ const shareBtn = document.getElementById("share-btn");
 const downloadBtn = document.getElementById("download-btn");
 
 let currentActivePlayer = null;
+let isSyncingFromHistory = false;
 
 // Extend openSheet to keep track of the currently active player for sharing/downloading
 const originalOpenSheet = openSheet;
 openSheet = function(player) {
   currentActivePlayer = player;
-  // Update browser URL query string seamlessly without reloading page
-  const newUrl = new URL(window.location);
-  newUrl.searchParams.set('player', player.id);
-  window.history.replaceState({}, '', newUrl);
-  
+  // Push a new history entry so the back/forward buttons step through players
+  if (!isSyncingFromHistory) {
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.set('player', player.id);
+    window.history.pushState({ playerId: player.id }, '', newUrl);
+  }
+
   originalOpenSheet(player);
 };
 
 // Extend closeSheet to clean up URL search parameter if desired
 const originalCloseSheet = closeSheet;
 closeSheet = function() {
-  const newUrl = new URL(window.location);
-  newUrl.searchParams.delete('player');
-  window.history.replaceState({}, '', newUrl);
+  if (!isSyncingFromHistory) {
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.delete('player');
+    window.history.pushState({}, '', newUrl);
+  }
   currentActivePlayer = null;
-  
+
   originalCloseSheet();
 };
+
+// Keep the popup in sync when the user hits back/forward
+window.addEventListener('popstate', () => {
+  const playerId = new URLSearchParams(window.location.search).get('player');
+  isSyncingFromHistory = true;
+  if (playerId) {
+    const found = ALL_PLAYERS.find((p) => p.id === playerId);
+    if (found) openSheet(found);
+    else closeSheet();
+  } else {
+    closeSheet();
+  }
+  isSyncingFromHistory = false;
+});
 
 // Copy link functionality
 const SHARE_ICON = shareBtn.innerHTML;
@@ -975,7 +994,9 @@ async function checkUrlPlayerParam() {
   if (playerId && ALL_PLAYERS.length > 0) {
     const found = ALL_PLAYERS.find(p => p.id === playerId);
     if (found) {
+      isSyncingFromHistory = true;
       openSheet(found);
+      isSyncingFromHistory = false;
     }
   }
 }
