@@ -803,6 +803,10 @@ function renderSimilarPlayers(player) {
 }
 
 function openSheet(player) {
+  document.querySelector(".sheet-header").classList.toggle(
+    "sheet-header-legend",
+    player.squadId === LEGEND_SQUAD_ID
+  );
   document.getElementById("sheet-portrait").replaceWith(
     Object.assign(makePortraitEl(player, "large"), { id: "sheet-portrait" })
   );
