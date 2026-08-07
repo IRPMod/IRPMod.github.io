@@ -382,17 +382,13 @@ main {
 }
 .overlay[hidden] { display: none; }
 
-/* compare-overlay specifically needs extra bottom clearance so it doesn't
-   run underneath the floating compare tray, which sits on top of it (z-index 20 vs 10) */
-#compare-overlay { padding-bottom: 140px; }
-
 .stat-sheet {
   background: var(--panel);
   color: var(--paper);
   max-width: 600px;
   width: 100%;
   border-radius: 6px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--gold);
   position: relative;
   overflow: hidden;
 }
@@ -488,6 +484,8 @@ main {
 .sheet-header-legend {
   background: linear-gradient(to bottom, rgba(212, 106, 158, 0.32), rgba(212, 106, 158, 0) 100%), var(--panel-alt);
 }
+.sheet-header-legend .sheet-portrait-frame { border-color: #D46A9E; }
+.sheet-header-legend .sheet-portrait-num { border-color: #D46A9E; color: #E58BB6; }
 
 .sheet-body { padding: 16px 18px 20px; }
 
@@ -771,7 +769,7 @@ main {
   max-width: 820px;
   width: 100%;
   border-radius: 6px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--gold);
   position: relative;
   overflow: hidden;
 }
@@ -834,7 +832,7 @@ main {
   height: 64px;
   margin: 0 auto 6px;
   border-radius: 4px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--gold);
   overflow: hidden;
   background: var(--panel-alt);
 }
