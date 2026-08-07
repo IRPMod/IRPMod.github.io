@@ -896,56 +896,31 @@ const shareBtn = document.getElementById("share-btn");
 const downloadBtn = document.getElementById("download-btn");
 
 let currentActivePlayer = null;
-let isSyncingFromHistory = false;
 
 // Extend openSheet to keep track of the currently active player for sharing/downloading
 const originalOpenSheet = openSheet;
 openSheet = function(player) {
   currentActivePlayer = player;
-  // Push a new history entry so the back/forward buttons step through players
-  if (!isSyncingFromHistory) {
-    const newUrl = new URL(window.location);
-    newUrl.searchParams.set('player', player.id);
-    window.history.pushState({ playerId: player.id }, '', newUrl);
-  }
-
   originalOpenSheet(player);
 };
 
-// Extend closeSheet to clean up URL search parameter if desired
+// Extend closeSheet to reset the active-player tracking
 const originalCloseSheet = closeSheet;
 closeSheet = function() {
-  if (!isSyncingFromHistory) {
-    const newUrl = new URL(window.location);
-    newUrl.searchParams.delete('player');
-    window.history.pushState({}, '', newUrl);
-  }
   currentActivePlayer = null;
-
   originalCloseSheet();
 };
-
-// Keep the popup in sync when the user hits back/forward
-window.addEventListener('popstate', () => {
-  const playerId = new URLSearchParams(window.location.search).get('player');
-  isSyncingFromHistory = true;
-  if (playerId) {
-    const found = ALL_PLAYERS.find((p) => p.id === playerId);
-    if (found) openSheet(found);
-    else closeSheet();
-  } else {
-    closeSheet();
-  }
-  isSyncingFromHistory = false;
-});
 
 // Copy link functionality
 const SHARE_ICON = shareBtn.innerHTML;
 const CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 shareBtn.addEventListener("click", async () => {
   if (!currentActivePlayer) return;
-  
-  const shareUrl = window.location.href;
+
+  const url = new URL(window.location);
+  url.search = "";
+  url.searchParams.set("player", currentActivePlayer.id);
+  const shareUrl = url.toString();
   try {
     await navigator.clipboard.writeText(shareUrl);
     const originalTitle = shareBtn.title;
@@ -995,9 +970,7 @@ async function checkUrlPlayerParam() {
   if (playerId && ALL_PLAYERS.length > 0) {
     const found = ALL_PLAYERS.find(p => p.id === playerId);
     if (found) {
-      isSyncingFromHistory = true;
       openSheet(found);
-      isSyncingFromHistory = false;
     }
   }
 }
