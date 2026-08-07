@@ -456,7 +456,7 @@ function buildPlayer(row, filename, squadLabel, squadId) {
     skillMoves: num(row, "skillmoves", 0),
     weakFoot: num(row, "weakfootabilitytypecode", 0),
     headClassCode: num(row, "headclasscode", 0),
-    hasRealFace: num(row, "headclasscode", 0) === 0,
+    hasRealFace: REAL_FACE_IDS.has(id),
     stats: Object.fromEntries(
       Object.entries(STAT_GROUPS).map(([k, keys]) => [k, avg(row, keys)])
     ),
@@ -475,6 +475,7 @@ const squadCount = document.getElementById("squad-count");
 const teamCount = document.getElementById("team-count");
 
 let ALL_PLAYERS = [];
+let REAL_FACE_IDS = new Set(); // populated from real-faces.json before players are built
 
 function initials(name) {
   return name
@@ -1002,6 +1003,17 @@ async function checkUrlPlayerParam() {
 }
 /* ---------- boot ---------- */
 
+async function loadRealFaceIds() {
+  try {
+    const res = await fetch("real-faces.json");
+    const ids = await res.json();
+    REAL_FACE_IDS = new Set(ids);
+  } catch (err) {
+    console.error("Failed to load real-faces.json — all players will show as generic face", err);
+    REAL_FACE_IDS = new Set();
+  }
+}
+
 async function loadAllPlayers() {
   const manifestRes = await fetch("players/manifest.json");
   const manifest = await manifestRes.json();
@@ -1040,6 +1052,7 @@ async function loadAllPlayers() {
 
 async function init() {
   try {
+    await loadRealFaceIds();
     ALL_PLAYERS = await loadAllPlayers();
     squadCount.textContent = String(ALL_PLAYERS.length).padStart(3, "0");
     const teamSet = new Set(ALL_PLAYERS.map((p) => p.club));
