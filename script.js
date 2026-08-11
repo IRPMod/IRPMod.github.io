@@ -340,6 +340,61 @@ const LOCAL_FLAG_OVERRIDES = {
   "Northern Ireland": "flags/northern-ireland.png",
 };
 
+// PlayStyles: icontrait1/icontrait2 are bitmasks. [name, bit, abbr] per category.
+// abbr is a short unique label shown inside the hex badge as a fallback if the icon fails to load.
+const PLAYSTYLES_TRAIT1 = {
+  "SCORING": [
+    ["Finesse Shot", 1, "FIN"], ["Chip Shot", 2, "CHIP"], ["Power Shot", 4, "PWR"],
+    ["Dead Ball", 8, "DEAD"], ["Precision Header", 16, "HEAD"], ["Acrobatic", 32, "ACRO"],
+    ["Low Driven Shot", 64, "LOW"], ["Gamechanger", 128, "GAME"],
+  ],
+  "PASSING": [
+    ["Incisive Pass", 256, "INCI"], ["Pinged Pass", 512, "PING"], ["Long Ball Pass", 1024, "LONG"],
+    ["Tiki Taka", 2048, "TIKI"], ["Whipped Pass", 4096, "WHIP"], ["Inventive", 8192, "INV"],
+  ],
+  "DEFENDING": [
+    ["Jockey", 16384, "JOCK"], ["Block", 32768, "BLOCK"], ["Intercept", 65536, "INTC"],
+    ["Anticipate", 131072, "ANTI"], ["Slide Tackle", 262144, "SLIDE"], ["Aerial Fortress", 524288, "AERIAL"],
+  ],
+  "BALL CONTROL": [
+    ["Technical", 1048576, "TECH"], ["Rapid", 2097152, "RAPID"], ["First Touch", 4194304, "TOUCH"],
+    ["Trickster", 8388608, "TRICK"], ["Press Proven", 16777216, "PRESS"],
+  ],
+  "PHYSICAL": [
+    ["Quick Step", 33554432, "QUICK"], ["Relentless", 67108864, "RELE"], ["Long Throw", 134217728, "THROW"],
+    ["Bruiser", 268435456, "BRUISE"], ["Enforcer", 536870912, "ENFO"],
+  ],
+};
+const PLAYSTYLES_TRAIT2 = {
+  "GOALKEEPER": [
+    ["Far Throw", 1, "FARTH"], ["Footwork", 2, "FOOT"], ["Cross Claimer", 4, "CLAIM"],
+    ["Rush Out", 8, "RUSH"], ["Far Reach", 16, "REACH"], ["Deflector", 32, "DEFL"],
+  ],
+  "CAREER MODE TRAITS": [
+    ["Solid Player", 64, "SOLID"], ["Team Player", 128, "TEAM"], ["One Club Player", 256, "ONECLUB"],
+    ["Injury Prone", 512, "INJURY"], ["Leadership", 1024, "LEAD"],
+  ],
+};
+
+function slugifyPlaystyle(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function decodePlaystyles(value1, value2) {
+  const results = [];
+  Object.entries(PLAYSTYLES_TRAIT1).forEach(([category, traits]) => {
+    traits.forEach(([name, bit, abbr]) => {
+      if (value1 & bit) results.push({ name, abbr, category, icon: `playstyles/${slugifyPlaystyle(name)}.png` });
+    });
+  });
+  Object.entries(PLAYSTYLES_TRAIT2).forEach(([category, traits]) => {
+    traits.forEach(([name, bit, abbr]) => {
+      if (value2 & bit) results.push({ name, abbr, category, icon: `playstyles/${slugifyPlaystyle(name)}.png` });
+    });
+  });
+  return results;
+}
+
 function flagUrl(nation) {
   if (LOCAL_FLAG_OVERRIDES[nation]) return LOCAL_FLAG_OVERRIDES[nation];
   const code = COUNTRY_FLAGS[nation];
@@ -464,6 +519,7 @@ function buildPlayer(row, filename, squadLabel, squadId) {
     weakFoot: num(row, "weakfootabilitytypecode", 0),
     headClassCode: num(row, "headclasscode", 0),
     hasRealFace: REAL_FACE_IDS.has(id),
+    playstyles: decodePlaystyles(num(row, "icontrait1", 0), num(row, "icontrait2", 0)),
     stats: Object.fromEntries(
       Object.entries(STAT_GROUPS).map(([k, keys]) => [k, avg(row, keys)])
     ),
@@ -853,6 +909,33 @@ function openSheet(player) {
     .map(([l, v]) => `<div class="bio-item"><span class="bio-label">${l}</span><span class="bio-value">${v}</span></div>`)
     .join("");
 
+  const playstylesSection = document.getElementById("playstyles-section");
+  const playstylesGrid = document.getElementById("playstyles-grid");
+  playstylesGrid.innerHTML = "";
+  if (player.playstyles && player.playstyles.length > 0) {
+    playstylesSection.hidden = false;
+    player.playstyles.forEach((ps) => {
+      const badge = document.createElement("button");
+      badge.type = "button";
+      badge.className = "playstyle-badge";
+      badge.setAttribute("aria-label", ps.name);
+      badge.innerHTML = `<span class="playstyle-hex"><img class="playstyle-icon" src="${ps.icon}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="playstyle-abbr" style="display:none;">${ps.abbr}</span></span>`;
+      const tip = document.createElement("span");
+      tip.className = "playstyle-tip";
+      tip.textContent = ps.name;
+      badge.appendChild(tip);
+      badge.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = badge.classList.contains("tip-visible");
+        document.querySelectorAll(".playstyle-badge.tip-visible").forEach((b) => b.classList.remove("tip-visible"));
+        if (!isOpen) badge.classList.add("tip-visible");
+      });
+      playstylesGrid.appendChild(badge);
+    });
+  } else {
+    playstylesSection.hidden = true;
+  }
+
   const cols = document.getElementById("attr-columns");
   cols.innerHTML = "";
   Object.entries(ATTR_COLUMNS).forEach(([groupName, keys]) => {
@@ -891,6 +974,10 @@ closeBtn.addEventListener("click", closeSheet);
 overlay.addEventListener("click", (e) => {
   if (e.target === overlay) closeSheet();
 });
+document.addEventListener("click", () => {
+  document.querySelectorAll(".playstyle-badge.tip-visible").forEach((b) => b.classList.remove("tip-visible"));
+});
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (!compareOverlay.hidden) closeCompareOverlay();
