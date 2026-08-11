@@ -100,7 +100,7 @@ body {
 }
 .masthead-actions {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 10px;
 }
 .scoreboard-group {
@@ -108,8 +108,7 @@ body {
   gap: 8px;
 }
 .discord-btn {
-  width: 28px;
-  height: 28px;
+  aspect-ratio: 1 / 1;
   border-radius: 3px;
   border: 1px solid var(--gold);
   background: var(--panel);
@@ -120,7 +119,7 @@ body {
   flex-shrink: 0;
   transition: background 0.12s ease, color 0.12s ease;
 }
-.discord-btn svg { width: 15px; height: 15px; }
+.discord-btn svg { width: 55%; height: 55%; }
 .discord-btn:hover { background: var(--gold); color: var(--black); }
 .scoreboard {
   background: var(--panel);
