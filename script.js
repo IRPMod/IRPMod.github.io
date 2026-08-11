@@ -334,7 +334,14 @@ const COUNTRY_FLAGS = {
   "New Caledonia": "nc", "South Sudan": "ss", "Kosovo": "xk",
 };
 
+// Nations flagcdn.com doesn't have a flag for (e.g. no single official
+// Northern Ireland flag exists) — point these at a locally hosted file instead.
+const LOCAL_FLAG_OVERRIDES = {
+  "Northern Ireland": "assets/flags/northern-ireland.png",
+};
+
 function flagUrl(nation) {
+  if (LOCAL_FLAG_OVERRIDES[nation]) return LOCAL_FLAG_OVERRIDES[nation];
   const code = COUNTRY_FLAGS[nation];
   return code ? `https://flagcdn.com/w40/${code}.png` : null;
 }
