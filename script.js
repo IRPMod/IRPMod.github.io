@@ -337,7 +337,7 @@ const COUNTRY_FLAGS = {
 // Nations flagcdn.com doesn't have a flag for (e.g. no single official
 // Northern Ireland flag exists) — point these at a locally hosted file instead.
 const LOCAL_FLAG_OVERRIDES = {
-  "Northern Ireland": "assets/flags/northern-ireland.png",
+  "Northern Ireland": "flags/northern-ireland.png",
 };
 
 function flagUrl(nation) {
