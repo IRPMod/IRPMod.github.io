@@ -740,6 +740,7 @@ main {
   .sheet-header { padding: 16px; }
   .sheet-ratings { width: 100%; justify-content: center; }
   .sheet-toolbar .download-btn { display: none; }
+  .masthead-bg-track { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
