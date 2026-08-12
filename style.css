@@ -712,6 +712,7 @@ main {
   .six-stats { grid-template-columns: repeat(3, 1fr); }
   .sheet-header { padding: 16px; }
   .sheet-ratings { width: 100%; justify-content: center; }
+  .download-btn { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
