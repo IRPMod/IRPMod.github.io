@@ -30,6 +30,19 @@ body {
   color: var(--paper);
   font-family: 'Oswald', sans-serif;
   min-height: 100vh;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.id-copyable {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+.id-copyable.id-copied {
+  color: var(--gold-bright);
 }
 
 /* ---------- masthead ---------- */
@@ -551,7 +564,7 @@ main {
   background: none;
   border: none;
   padding: 0;
-  cursor: pointer;
+  cursor: default;
 }
 .playstyle-hex {
   width: 48px;
@@ -561,8 +574,7 @@ main {
   justify-content: center;
   transition: transform 0.12s ease, filter 0.12s ease;
 }
-.playstyle-badge:hover .playstyle-hex,
-.playstyle-badge.tip-visible .playstyle-hex {
+.playstyle-badge:hover .playstyle-hex {
   transform: scale(1.08);
   filter: drop-shadow(0 0 5px rgba(227, 190, 74, 0.55));
 }
@@ -617,8 +629,7 @@ main {
   border: 5px solid transparent;
   border-top-color: var(--gold);
 }
-.playstyle-badge:hover .playstyle-tip,
-.playstyle-badge.tip-visible .playstyle-tip {
+.playstyle-badge:hover .playstyle-tip {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
