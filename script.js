@@ -540,6 +540,21 @@ const teamCount = document.getElementById("team-count");
 let ALL_PLAYERS = [];
 let REAL_FACE_IDS = new Set(); // populated from real-faces.json before players are built
 
+function attachCopyOnDoubleClick(el, text) {
+  el.addEventListener("dblclick", (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(text).then(() => {
+      const original = el.textContent;
+      el.classList.add("id-copied");
+      el.textContent = "Copied!";
+      setTimeout(() => {
+        el.textContent = original;
+        el.classList.remove("id-copied");
+      }, 900);
+    }).catch(() => {});
+  });
+}
+
 function initials(name) {
   return name
     .split(" ")
@@ -642,8 +657,12 @@ function renderCard(player) {
   sub.innerHTML = `<span class="sticker-pos">${player.position}</span><span class="sticker-flags"><img class="sticker-crest" src="${crestPath(player.squadId)}" alt="" onerror="this.style.display='none'">${flagImg}</span>`;
 
   const idLine = document.createElement("p");
-  idLine.className = "sticker-id";
+  idLine.className = "sticker-id id-copyable";
+  idLine.setAttribute("data-copy-id", "true");
   idLine.textContent = `ID ${player.id}`;
+
+  idLine.addEventListener("click", (e) => e.stopPropagation());
+  attachCopyOnDoubleClick(idLine, String(player.id));
 
   card.append(top, portrait, name, sub, idLine);
   card.addEventListener("click", () => openSheet(player));
@@ -906,8 +925,13 @@ function openSheet(player) {
     ["Weak Foot", "★".repeat(player.weakFoot) + "☆".repeat(Math.max(0, 5 - player.weakFoot))],
   ];
   bio.innerHTML = bioItems
-    .map(([l, v]) => `<div class="bio-item"><span class="bio-label">${l}</span><span class="bio-value">${v}</span></div>`)
+    .map(([l, v]) => {
+      const isId = l === "ID";
+      return `<div class="bio-item"><span class="bio-label">${l}</span><span class="bio-value${isId ? " id-copyable" : ""}"${isId ? ' data-copy-id="true"' : ""}>${v}</span></div>`;
+    })
     .join("");
+  const idValueEl = bio.querySelector('[data-copy-id="true"]');
+  if (idValueEl) attachCopyOnDoubleClick(idValueEl, String(player.id));
 
   const playstylesSection = document.getElementById("playstyles-section");
   const playstylesGrid = document.getElementById("playstyles-grid");
@@ -915,8 +939,7 @@ function openSheet(player) {
   if (player.playstyles && player.playstyles.length > 0) {
     playstylesSection.hidden = false;
     player.playstyles.forEach((ps) => {
-      const badge = document.createElement("button");
-      badge.type = "button";
+      const badge = document.createElement("span");
       badge.className = "playstyle-badge";
       badge.setAttribute("aria-label", ps.name);
       badge.innerHTML = `<span class="playstyle-hex"><img class="playstyle-icon" src="${ps.icon}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="playstyle-abbr" style="display:none;">${ps.abbr}</span></span>`;
@@ -924,12 +947,6 @@ function openSheet(player) {
       tip.className = "playstyle-tip";
       tip.textContent = ps.name;
       badge.appendChild(tip);
-      badge.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = badge.classList.contains("tip-visible");
-        document.querySelectorAll(".playstyle-badge.tip-visible").forEach((b) => b.classList.remove("tip-visible"));
-        if (!isOpen) badge.classList.add("tip-visible");
-      });
       playstylesGrid.appendChild(badge);
     });
   } else {
@@ -974,10 +991,6 @@ closeBtn.addEventListener("click", closeSheet);
 overlay.addEventListener("click", (e) => {
   if (e.target === overlay) closeSheet();
 });
-document.addEventListener("click", () => {
-  document.querySelectorAll(".playstyle-badge.tip-visible").forEach((b) => b.classList.remove("tip-visible"));
-});
-
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (!compareOverlay.hidden) closeCompareOverlay();
