@@ -157,6 +157,15 @@ body {
   padding: 6px 12px;
   text-align: center;
   min-width: 76px;
+  font-family: inherit;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.12s ease, background 0.12s ease;
+}
+.scoreboard:hover { opacity: 0.85; }
+.scoreboard.active {
+  opacity: 1;
+  background: var(--panel-alt);
 }
 .scoreboard-label {
   display: block;
@@ -402,6 +411,89 @@ main {
   padding: 40px 0;
   text-align: center;
   grid-column: 1 / -1;
+}
+
+/* ---------- teams view ---------- */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+}
+.team-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+.team-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+.team-card-legend { border-color: #D46A9E; }
+.team-card-legend:hover { border-color: #E58BB6; }
+.team-card-crest {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.team-card-crest img { width: 100%; height: 100%; object-fit: contain; }
+.team-card-name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--paper);
+  text-align: center;
+  line-height: 1.2;
+}
+.team-card-legend .team-card-name { color: #E58BB6; }
+.team-card-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 9.5px;
+  color: #8A8880;
+}
+
+.squad-header {
+  margin-bottom: 16px;
+}
+.squad-back-btn {
+  background: none;
+  border: none;
+  color: var(--gold-bright);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.squad-back-btn:hover { color: var(--paper); }
+.squad-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.squad-header-crest {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.squad-header-name {
+  margin: 0;
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: clamp(18px, 3vw, 26px);
+  color: var(--paper);
+  text-transform: uppercase;
 }
 
 /* ---------- footer ---------- */
