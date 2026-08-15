@@ -150,7 +150,8 @@ body {
   transition: background 0.12s ease, color 0.12s ease;
 }
 .discord-btn svg { width: 22px; height: 22px; }
-.discord-btn:hover { background: var(--gold); color: var(--black); }
+.discord-btn:hover,
+.discord-btn:active { background: #5865F2; color: var(--paper); border-color: #5865F2; }
 .scoreboard {
   background: var(--panel);
   border: 1px solid var(--gold);
@@ -471,7 +472,9 @@ main {
   color: var(--gold-bright);
   font-family: 'Space Mono', monospace;
   font-size: 11px;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   cursor: pointer;
   padding: 0;
   margin-bottom: 10px;
