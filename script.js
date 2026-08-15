@@ -536,6 +536,15 @@ const positionFilter = document.getElementById("position-filter");
 const sortBy = document.getElementById("sort-by");
 const squadCount = document.getElementById("squad-count");
 const teamCount = document.getElementById("team-count");
+const squadBadge = document.getElementById("squad-badge");
+const teamBadge = document.getElementById("team-badge");
+const teamsGrid = document.getElementById("teams-grid");
+const controlsSection = document.getElementById("controls-section");
+const squadHeader = document.getElementById("squad-header");
+const squadBackBtn = document.getElementById("squad-back-btn");
+const squadHeaderCrest = document.getElementById("squad-header-crest");
+const squadHeaderName = document.getElementById("squad-header-name");
+let squadFilter = null; // squadId currently being viewed, or null for all-players view
 
 let ALL_PLAYERS = [];
 let REAL_FACE_IDS = new Set(); // populated from real-faces.json before players are built
@@ -686,7 +695,8 @@ function applyFiltersAndRender() {
       p.club.toLowerCase().includes(q) ||
       p.id.toLowerCase().includes(q);
     const matchesPos = !pos || p.position === pos;
-    return matchesQ && matchesPos;
+    const matchesSquad = !squadFilter || p.squadId === squadFilter;
+    return matchesQ && matchesPos && matchesSquad;
   });
 
   switch (sortBy.value) {
@@ -705,7 +715,8 @@ function applyFiltersAndRender() {
   } else {
     list.forEach((p) => grid.appendChild(renderCard(p)));
   }
-  resultsLine.textContent = `Showing ${list.length} of ${ALL_PLAYERS.length} players`;
+  const totalForView = squadFilter ? ALL_PLAYERS.filter((p) => p.squadId === squadFilter).length : ALL_PLAYERS.length;
+  resultsLine.textContent = `Showing ${list.length} of ${totalForView} players`;
 }
 
 const POSITION_ORDER = ["GK", "CB", "RB", "LB", "RWB", "LWB", "CDM", "CM", "CAM", "RM", "LM", "RW", "LW", "ST"];
@@ -723,6 +734,82 @@ function populatePositionFilter() {
     positionFilter.appendChild(opt);
   });
 }
+
+/* ---------- teams view ---------- */
+
+function getSquadList() {
+  const map = new Map();
+  ALL_PLAYERS.forEach((p) => {
+    if (!map.has(p.squadId)) {
+      map.set(p.squadId, { squadId: p.squadId, label: p.club, count: 0 });
+    }
+    map.get(p.squadId).count++;
+  });
+  return Array.from(map.values()).sort((a, b) => a.label.localeCompare(b.label));
+}
+
+function renderTeamsGrid() {
+  teamsGrid.innerHTML = "";
+  getSquadList().forEach((squad) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "team-card";
+    if (squad.squadId === LEGEND_SQUAD_ID) card.classList.add("team-card-legend");
+    card.innerHTML = `
+      <div class="team-card-crest"><img src="${crestPath(squad.squadId)}" alt="" onerror="this.style.display='none'"></div>
+      <div class="team-card-name">${squad.label}</div>
+      <div class="team-card-count">${squad.count} players</div>
+    `;
+    card.addEventListener("click", () => showSquadView(squad.squadId));
+    teamsGrid.appendChild(card);
+  });
+}
+
+function setActiveTab(tab) {
+  squadBadge.classList.toggle("active", tab === "players");
+  teamBadge.classList.toggle("active", tab === "teams");
+}
+
+function showPlayersView() {
+  squadFilter = null;
+  setActiveTab("players");
+  squadHeader.hidden = true;
+  teamsGrid.hidden = true;
+  controlsSection.hidden = false;
+  resultsLine.hidden = false;
+  grid.hidden = false;
+  applyFiltersAndRender();
+}
+
+function showTeamsView() {
+  squadFilter = null;
+  setActiveTab("teams");
+  squadHeader.hidden = true;
+  controlsSection.hidden = true;
+  resultsLine.hidden = true;
+  grid.hidden = true;
+  renderTeamsGrid();
+  teamsGrid.hidden = false;
+}
+
+function showSquadView(squadId) {
+  squadFilter = squadId;
+  setActiveTab("teams");
+  const squad = getSquadList().find((s) => s.squadId === squadId);
+  squadHeaderCrest.src = crestPath(squadId);
+  squadHeaderCrest.style.display = "";
+  squadHeaderName.textContent = squad ? squad.label : "";
+  squadHeader.hidden = false;
+  teamsGrid.hidden = true;
+  controlsSection.hidden = false;
+  resultsLine.hidden = false;
+  grid.hidden = false;
+  applyFiltersAndRender();
+}
+
+squadBadge.addEventListener("click", showPlayersView);
+teamBadge.addEventListener("click", showTeamsView);
+squadBackBtn.addEventListener("click", showTeamsView);
 
 /* ---------- detail overlay ---------- */
 
